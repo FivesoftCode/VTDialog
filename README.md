@@ -3,7 +3,19 @@
 Create beautiful dialogs easily.
 
 
+### Demo
+
+Simple dialog:
+
 <img src="https://firebasestorage.googleapis.com/v0/b/sontondum.appspot.com/o/Screenshot_20210407-181212.jpg?alt=media" alt="drawing" width="400"/>
+
+Customized dialog:
+
+<img src="https://firebasestorage.googleapis.com/v0/b/sontondum.appspot.com/o/Screenshot_20210407-182551_Fivesoft%20Utils.jpg?alt=media" alt="drawing" width="400"/>
+
+Dialog with custom view:
+
+<img src="https://firebasestorage.googleapis.com/v0/b/sontondum.appspot.com/o/Screenshot_20210407-183016_Fivesoft%20Utils.jpg?alt=media" width="400"/>
 
 ### Usage
 
