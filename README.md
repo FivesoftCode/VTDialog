@@ -3,8 +3,7 @@
 Create beautiful dialogs easily.
 
 
-![alt text](https://firebasestorage.googleapis.com/v0/b/sontondum.appspot.com/o/Screenshot_20210407-181212.jpg?alt=media)
-
+<img src="https://firebasestorage.googleapis.com/v0/b/sontondum.appspot.com/o/Screenshot_20210407-181212.jpg?alt=media" alt="drawing" width="400"/>
 
 ### Usage
 
