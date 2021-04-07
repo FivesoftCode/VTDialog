@@ -23,7 +23,7 @@ Create simple dialog:
                 .show(); //Show dialog
                 
                 
-###License
+### License
 
     The MIT License (MIT)
 
