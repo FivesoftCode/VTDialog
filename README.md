@@ -22,7 +22,28 @@ Create simple dialog:
                 .setRightButton("Cool!", null) //Add right button
                 .show(); //Show dialog
                 
-                
+Customize your dialog:
+
+    yourDialog.customize(new VTDialog.DialogCustomization(){
+    
+                    @Override
+                    public void customizeDialogBackground(LinearLayout dialogBackground) {
+                        dialogBackground.setBackgroundColor(Color.RED);
+                    }
+
+                    @Override
+                    public void customizeTitleTextView(TextView title) {
+                        title.setTextSize(20);
+                        title.setTextColor(Color.WHITE);
+                    }
+
+                    @Override
+                    public void customizeButtons(TextView button) {
+                        button.setBackgroundResource(R.drawable.simple_button);
+                    }
+                    
+                });
+     
 ### License
 
     The MIT License (MIT)
