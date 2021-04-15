@@ -356,7 +356,7 @@ public class VTDialog {
 
                 dialogCustomization.customizeButtons(leftButton);
                 dialogCustomization.customizeButtons(rightButton);
-                dialogCustomization.customizeButtons(rightButton);
+                dialogCustomization.customizeButtons(centerButton);
 
                 dialogCustomization.customizeDialogIcon(icon);
 
