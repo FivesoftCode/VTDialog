@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
 import static android.view.View.GONE;
@@ -316,7 +317,7 @@ public class VTDialog {
 
         ImageView icon = dialog.findViewById(R.id.icon);
 
-        LinearLayout background = dialog.findViewById(R.id.background);
+        CardView background = dialog.findViewById(R.id.background);
 
         LinearLayout content = dialog.findViewById(R.id.content);
 
@@ -347,18 +348,25 @@ public class VTDialog {
         setupIcon(dialogIcon, icon);
 
         if(dialogCustomization != null){
-            dialogCustomization.customizeTitleTextView(dialTitle);
-            dialogCustomization.customizeMessageTextView(dialMessage);
 
-            dialogCustomization.customizeButtons(leftButton);
-            dialogCustomization.customizeButtons(rightButton);
-            dialogCustomization.customizeButtons(rightButton);
+            try {
 
-            dialogCustomization.customizeDialogIcon(icon);
+                dialogCustomization.customizeTitleTextView(dialTitle);
+                dialogCustomization.customizeMessageTextView(dialMessage);
 
-            dialogCustomization.customizeDialogBackground(background);
+                dialogCustomization.customizeButtons(leftButton);
+                dialogCustomization.customizeButtons(rightButton);
+                dialogCustomization.customizeButtons(rightButton);
 
-            dialogCustomization.customizeWindow(dialog.getWindow());
+                dialogCustomization.customizeDialogIcon(icon);
+
+                dialogCustomization.customizeDialogBackground(background);
+
+                dialogCustomization.customizeWindow(dialog.getWindow());
+
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         }
 
     }
@@ -421,7 +429,7 @@ public class VTDialog {
 
         }
 
-        public void customizeDialogBackground(LinearLayout dialogBackground){
+        public void customizeDialogBackground(CardView background){
 
         }
 
