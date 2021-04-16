@@ -21,7 +21,7 @@ Dialog with custom view:
 
 Implementation:
 
-    implementation 'com.github.FivesoftCode:VTDialog:1.0.0'
+    implementation 'com.github.FivesoftCode:VTDialog:1.0.1'
 
 Create simple dialog:
 
