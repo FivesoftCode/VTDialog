@@ -296,7 +296,7 @@ public class VTDialog {
 
     private void createDialog(){
 
-        dialog.getWindow().getAttributes().windowAnimations = R.style.BottomSheetDialog;
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogTheme;
 
         if(dialogMode == DIALOG_MODE_NORMAL) {
             dialog.setContentView(R.layout.d_vt_dialog_alert);
