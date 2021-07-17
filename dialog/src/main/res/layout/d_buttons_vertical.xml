@@ -12,10 +12,10 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/simple_button"
         android:gravity="center"
-        android:padding="8dp"
+        android:padding="10dp"
         android:text="No"
         android:textColor="#494949"
-        android:textSize="14sp" />
+        android:textSize="16sp" />
 
 
     <TextView
@@ -26,10 +26,10 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/simple_button"
         android:gravity="center"
-        android:padding="8dp"
+        android:padding="10dp"
         android:text="Cancel"
         android:textColor="#494949"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:visibility="gone" />
 
 
@@ -40,9 +40,9 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/simple_button"
         android:gravity="center"
-        android:padding="8dp"
+        android:padding="10dp"
         android:text="Yes"
         android:textColor="#494949"
-        android:textSize="14sp" />
+        android:textSize="16sp" />
 
 </LinearLayout>

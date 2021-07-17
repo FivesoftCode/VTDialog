@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .setDismissOnButtonClick(true)
                 .setButtonsStyle(VTDialog.BUTTONS_STYLE_VERTICAL)
-                .setLeftButton("Great", view -> {
+                .setLeftButton("Great", R.drawable.ic_baseline_check_24, view -> {
                     Toast.makeText(this, "Left button clicked!", Toast.LENGTH_LONG).show();
                 })
                 .setRightButton("Cool!", null)

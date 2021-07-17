@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -47,11 +48,14 @@ public class VTDialog {
     private TextView dialMessage;
     private boolean messageSingleLine = false;
     private boolean titleSingleLine = false;
+    private boolean buttonIconAutoColor = true;
 
     private int paddingLeft = 8;
     private int paddingRight = 8;
     private int paddingTop = 8;
     private int paddingBottom = 8;
+
+
 
     private int buttonsStyle;
 
@@ -112,6 +116,45 @@ public class VTDialog {
 
     public VTDialog setRightButton(String text, OnClickListener clickListener) {
         rightButton = new Button(text, clickListener);
+        return this;
+    }
+
+    /**
+     * Sets the left button. If you don't call this method
+     * the left button will not be displayed.
+     * @param text The text displayed on the button.
+     * @param clickListener The click listener.
+     * @param iconRes Button icon resource id.
+     */
+
+    public VTDialog setLeftButton(String text, int iconRes, OnClickListener clickListener) {
+        leftButton = new Button(text, iconRes, clickListener);
+        return this;
+    }
+
+    /**
+     * Sets the central button. If you don't call this method
+     * the central button will not be displayed.
+     * @param text The text displayed on the button.
+     * @param clickListener The click listener.
+     * @param iconRes Button icon resource id.
+     */
+
+    public VTDialog setCentralButton(String text, int iconRes, OnClickListener clickListener) {
+        centralButton = new Button(text, iconRes, clickListener);
+        return this;
+    }
+
+    /**
+     * Sets the right button. If you don't call this method
+     * the right button will not be displayed.
+     * @param text The text displayed on the button.
+     * @param clickListener The click listener.
+     * @param iconRes Button icon resource id.
+     */
+
+    public VTDialog setRightButton(String text, int iconRes, OnClickListener clickListener) {
+        rightButton = new Button(text, iconRes, clickListener);
         return this;
     }
 
@@ -298,6 +341,11 @@ public class VTDialog {
         return this;
     }
 
+    public VTDialog setButtonIconAutoColor(boolean buttonIconAutoColor) {
+        this.buttonIconAutoColor = buttonIconAutoColor;
+        return this;
+    }
+
     public VTDialog customize(DialogCustomization dialogCustomization){
         this.dialogCustomization = dialogCustomization;
         return this;
@@ -320,7 +368,7 @@ public class VTDialog {
      * Closes the dialog.
      */
 
-    public void dismissDialog(){
+    public void dismiss(){
         dialog.dismiss();
     }
 
@@ -445,6 +493,12 @@ public class VTDialog {
                     dialog.dismiss();
                 }
             });
+            if(buttonData.iconRes != -1){
+                textView.setCompoundDrawablesWithIntrinsicBounds(buttonData.iconRes, 0, 0, 0);
+                if(buttonIconAutoColor){
+                    textView.getCompoundDrawables()[0].setColorFilter(textView.getTextColors().getDefaultColor(), PorterDuff.Mode.SRC_IN);
+                }
+            }
         }
     }
 
@@ -459,10 +513,17 @@ public class VTDialog {
     private static class Button {
 
         public String text;
+        public int iconRes = -1;
         public OnClickListener onClickListener;
 
         private Button(String text, OnClickListener onClickListener){
             this.text = text;
+            this.onClickListener = onClickListener;
+        }
+
+        private Button(String text, int iconRes, OnClickListener onClickListener){
+            this.text = text;
+            this.iconRes = iconRes;
             this.onClickListener = onClickListener;
         }
 
