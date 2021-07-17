@@ -76,80 +76,10 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/buttonsBar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="8dp"
-                        android:baselineAligned="false">
-
-                        <LinearLayout
-                            android:id="@+id/leftButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="4dp"
-                            android:layout_weight="3"
-                            android:background="@drawable/simple_button"
-                            android:gravity="center"
-                            android:orientation="horizontal"
-                            android:padding="8dp">
-
-                            <TextView
-                                android:id="@+id/leftButtonText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                tools:text="No"
-                                android:textColor="#595959"
-                                android:textSize="16sp" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/centerButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="4dp"
-                            android:layout_marginRight="4dp"
-                            android:layout_weight="3"
-                            android:background="@drawable/simple_button"
-                            android:gravity="center"
-                            android:orientation="horizontal"
-                            android:padding="8dp"
-                            android:visibility="gone">
-
-                            <TextView
-                                android:id="@+id/centerButtonText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                tools:text="Cancel"
-                                android:textColor="#595959"
-                                android:textSize="16sp" />
-
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/rightButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="4dp"
-                            android:layout_weight="3"
-                            android:background="@drawable/simple_button"
-                            android:gravity="center"
-                            android:orientation="horizontal"
-                            android:padding="8dp">
-
-                            <TextView
-                                android:id="@+id/rightButtonText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                tools:text="Yes"
-                                android:textColor="#595959"
-                                android:textSize="16sp" />
-
-                        </LinearLayout>
-
-
-                    </LinearLayout>
+                        android:orientation="horizontal"/>
 
                 </LinearLayout>
             </ScrollView>

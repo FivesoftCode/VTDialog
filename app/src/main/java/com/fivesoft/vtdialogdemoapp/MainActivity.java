@@ -38,12 +38,12 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void customizeButtons(TextView button) {
-                        super.customizeButtons(button);
+                    public void customizeButtons(TextView button, int buttonId) {
                         button.setBackgroundResource(R.drawable.simple_button);
                     }
                 })
                 .setDismissOnButtonClick(true)
+                .setButtonsStyle(VTDialog.BUTTONS_STYLE_VERTICAL)
                 .setLeftButton("Great", view -> {
                     Toast.makeText(this, "Left button clicked!", Toast.LENGTH_LONG).show();
                 })

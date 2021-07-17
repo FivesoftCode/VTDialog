@@ -18,6 +18,8 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
+import com.fivesoft.smartutil.Metrics;
+
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
@@ -46,11 +48,21 @@ public class VTDialog {
     private boolean messageSingleLine = false;
     private boolean titleSingleLine = false;
 
+    private int paddingLeft = 8;
+    private int paddingRight = 8;
+    private int paddingTop = 8;
+    private int paddingBottom = 8;
+
+    private int buttonsStyle;
+
     private DialogCustomization dialogCustomization = null;
 
     public static final int DIALOG_MODE_NORMAL = 0;
     public static final int DIALOG_MODE_FULLSCREEN = 1;
 
+
+    public static final int BUTTONS_STYLE_HORIZONTAL = 0;
+    public static final int BUTTONS_STYLE_VERTICAL = 1;
 
     private VTDialog(Activity activity){
         this.activity = activity;
@@ -264,6 +276,28 @@ public class VTDialog {
         return this;
     }
 
+    /**
+     * Sets the dialog padding in dp.
+     * @param left padding
+     * @param top padding
+     * @param right padding
+     * @param bottom padding
+     * @return current VTDialog instance
+     */
+
+    public VTDialog setPadding(int left, int top, int right, int bottom){
+        this.paddingLeft = left;
+        this.paddingTop = top;
+        this.paddingRight = right;
+        this.paddingBottom = bottom;
+        return this;
+    }
+
+    public VTDialog setButtonsStyle(int buttonsStyle){
+        this.buttonsStyle = buttonsStyle;
+        return this;
+    }
+
     public VTDialog customize(DialogCustomization dialogCustomization){
         this.dialogCustomization = dialogCustomization;
         return this;
@@ -321,9 +355,22 @@ public class VTDialog {
 
         LinearLayout content = dialog.findViewById(R.id.content);
 
-        TextView leftButton = dialog.findViewById(R.id.leftButton);
-        TextView centerButton = dialog.findViewById(R.id.centerButton);
-        TextView rightButton = dialog.findViewById(R.id.rightButton);
+        LinearLayout buttonsBar = dialog.findViewById(R.id.buttonsBar);
+
+        View view;
+
+        if(buttonsStyle == BUTTONS_STYLE_HORIZONTAL){
+            view = activity.getLayoutInflater().inflate(R.layout.d_buttons_horizontal, buttonsBar, false);
+        } else {
+            view = activity.getLayoutInflater().inflate(R.layout.d_buttons_vertical, buttonsBar, false);
+        }
+
+        buttonsBar.removeAllViews();
+        buttonsBar.addView(view);
+
+        TextView leftButton = view.findViewById(R.id.leftButton);
+        TextView centerButton = view.findViewById(R.id.centerButton);
+        TextView rightButton = view.findViewById(R.id.rightButton);
 
         setupTextView(this.title, dialTitle);
         setupTextView(this.message, dialMessage);
@@ -354,9 +401,9 @@ public class VTDialog {
                 dialogCustomization.customizeTitleTextView(dialTitle);
                 dialogCustomization.customizeMessageTextView(dialMessage);
 
-                dialogCustomization.customizeButtons(leftButton);
-                dialogCustomization.customizeButtons(rightButton);
-                dialogCustomization.customizeButtons(centerButton);
+                dialogCustomization.customizeButtons(leftButton, 0);
+                dialogCustomization.customizeButtons(rightButton, 2);
+                dialogCustomization.customizeButtons(centerButton, 1);
 
                 dialogCustomization.customizeDialogIcon(icon);
 
@@ -368,6 +415,12 @@ public class VTDialog {
                 e.printStackTrace();
             }
         }
+
+        background.setContentPadding(
+                Metrics.dpToPx(paddingLeft, activity),
+                Metrics.dpToPx(paddingTop, activity),
+                Metrics.dpToPx(paddingRight, activity),
+                Metrics.dpToPx(paddingBottom, activity));
 
     }
 
@@ -425,7 +478,7 @@ public class VTDialog {
 
         }
 
-        public void customizeButtons(TextView button){
+        public void customizeButtons(TextView button, int buttonId){
 
         }
 
