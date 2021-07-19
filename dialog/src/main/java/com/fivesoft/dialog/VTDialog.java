@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.util.Linkify;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -55,6 +56,7 @@ public class VTDialog {
     private int paddingTop = 8;
     private int paddingBottom = 8;
 
+    private int gravity = Gravity.CENTER;
 
 
     private int buttonsStyle;
@@ -352,6 +354,17 @@ public class VTDialog {
     }
 
     /**
+     * Sets gravity of the dialog.
+     * @param gravity dialog gravity. Check {@link Gravity}
+     * @return current VTDialog instance
+     */
+
+    public VTDialog setGravity(int gravity){
+        this.gravity = gravity;
+        return this;
+    }
+
+    /**
      * Shows the dialog.
      */
 
@@ -373,6 +386,25 @@ public class VTDialog {
     }
 
 
+    public TextView getLeftButton(){
+        return leftButton.buttonView;
+    }
+
+    public TextView getCenterButton(){
+        return centralButton.buttonView;
+    }
+
+    public TextView getRightButton(){
+        return rightButton.buttonView;
+    }
+
+    public Window getWindow(){
+        return dialog.getWindow();
+    }
+
+    public Activity getActivity(){
+        return activity;
+    }
 
     //Private methods
 
@@ -513,6 +545,7 @@ public class VTDialog {
     private static class Button {
 
         public String text;
+        public TextView buttonView;
         public int iconRes = -1;
         public OnClickListener onClickListener;
 
