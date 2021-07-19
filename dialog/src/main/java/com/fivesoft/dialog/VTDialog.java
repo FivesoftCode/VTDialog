@@ -37,6 +37,10 @@ public class VTDialog {
     private Button centralButton = null;
     private Button rightButton = null;
 
+    private TextView leftButtonView;
+    private TextView centerButtonView;
+    private TextView rightButtonView;
+
     private String title = "";
     private String message = "";
     private View contentView;
@@ -47,6 +51,7 @@ public class VTDialog {
     private boolean enabledLinkify = false;
     private TextView dialTitle;
     private TextView dialMessage;
+    private LinearLayout root;
     private boolean messageSingleLine = false;
     private boolean titleSingleLine = false;
     private boolean buttonIconAutoColor = true;
@@ -387,15 +392,15 @@ public class VTDialog {
 
 
     public TextView getLeftButton(){
-        return leftButton.buttonView;
+        return leftButtonView;
     }
 
     public TextView getCenterButton(){
-        return centralButton.buttonView;
+        return centerButtonView;
     }
 
     public TextView getRightButton(){
-        return rightButton.buttonView;
+        return rightButtonView;
     }
 
     public Window getWindow(){
@@ -411,12 +416,13 @@ public class VTDialog {
     private void createDialog(){
 
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogTheme;
-        dialog.getWindow().getAttributes().gravity = gravity;
 
         if(dialogMode == DIALOG_MODE_NORMAL) {
             dialog.setContentView(R.layout.d_vt_dialog_alert);
-            dialog.getWindow().setLayout(MATCH_PARENT, WRAP_CONTENT);
+            dialog.getWindow().setLayout(MATCH_PARENT, MATCH_PARENT);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            root = dialog.findViewById(R.id.root);
+            root.setGravity(gravity);
         } else if(dialogMode == DIALOG_MODE_FULLSCREEN){
             dialog.setContentView(R.layout.d_vt_dialog_fullscreen);
 
@@ -449,9 +455,9 @@ public class VTDialog {
         buttonsBar.removeAllViews();
         buttonsBar.addView(view);
 
-        TextView leftButton = view.findViewById(R.id.leftButton);
-        TextView centerButton = view.findViewById(R.id.centerButton);
-        TextView rightButton = view.findViewById(R.id.rightButton);
+        leftButtonView = view.findViewById(R.id.leftButton);
+        centerButtonView = view.findViewById(R.id.centerButton);
+        rightButtonView = view.findViewById(R.id.rightButton);
 
         setupTextView(this.title, dialTitle);
         setupTextView(this.message, dialMessage);
@@ -464,9 +470,9 @@ public class VTDialog {
         dialTitle.setSingleLine(titleSingleLine);
         dialMessage.setSingleLine(messageSingleLine);
 
-        setupButton(this.leftButton, leftButton);
-        setupButton(this.centralButton, centerButton);
-        setupButton(this.rightButton, rightButton);
+        setupButton(this.leftButton, leftButtonView);
+        setupButton(this.centralButton, centerButtonView);
+        setupButton(this.rightButton, rightButtonView);
 
         if (contentView != null) {
             content.removeAllViewsInLayout();
@@ -482,9 +488,9 @@ public class VTDialog {
                 dialogCustomization.customizeTitleTextView(dialTitle);
                 dialogCustomization.customizeMessageTextView(dialMessage);
 
-                dialogCustomization.customizeButtons(leftButton, 0);
-                dialogCustomization.customizeButtons(rightButton, 2);
-                dialogCustomization.customizeButtons(centerButton, 1);
+                dialogCustomization.customizeButtons(leftButtonView, 0);
+                dialogCustomization.customizeButtons(rightButtonView, 2);
+                dialogCustomization.customizeButtons(centerButtonView, 1);
 
                 dialogCustomization.customizeDialogIcon(icon);
 
@@ -546,7 +552,6 @@ public class VTDialog {
     private static class Button {
 
         public String text;
-        public TextView buttonView;
         public int iconRes = -1;
         public OnClickListener onClickListener;
 

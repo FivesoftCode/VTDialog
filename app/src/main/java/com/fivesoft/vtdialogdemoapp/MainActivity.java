@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         VTDialog.from(this)
                 .setTitle("Title")
                 .setMessage("This is message text.")
+                .setGravity(Gravity.BOTTOM)
                 .setCancelable(true)
                 .setDialogIcon(null)
                 .customize(new VTDialog.DialogCustomization(){
