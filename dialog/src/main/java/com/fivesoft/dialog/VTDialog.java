@@ -411,6 +411,7 @@ public class VTDialog {
     private void createDialog(){
 
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogTheme;
+        dialog.getWindow().getAttributes().gravity = gravity;
 
         if(dialogMode == DIALOG_MODE_NORMAL) {
             dialog.setContentView(R.layout.d_vt_dialog_alert);
