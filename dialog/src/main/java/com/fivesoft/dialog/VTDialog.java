@@ -51,6 +51,7 @@ public class VTDialog {
     private View contentView;
 
     private boolean dismissOnButtonClick = true;
+    private boolean cancelable = true;
     private Drawable dialogIcon;
     private final Dialog dialog;
     private boolean enabledLinkify = false;
@@ -255,6 +256,7 @@ public class VTDialog {
 
     public VTDialog setCancelable(boolean cancelable) {
         dialog.setCancelable(cancelable);
+        this.cancelable = cancelable;
         return this;
     }
 
@@ -496,6 +498,10 @@ public class VTDialog {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             root = dialog.findViewById(R.id.root);
             root.setGravity(gravity);
+            root.setOnClickListener(v -> {
+                if(cancelable)
+                    dialog.dismiss();
+            });
         } else if(dialogMode == DIALOG_MODE_FULLSCREEN){
             dialog.setContentView(R.layout.d_vt_dialog_fullscreen);
 
