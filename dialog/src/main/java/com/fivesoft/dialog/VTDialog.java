@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import com.fivesoft.smartutil.Metrics;
@@ -70,7 +71,7 @@ public class VTDialog {
 
     private int buttonsStyle;
 
-    private DialogCustomization dialogCustomization = null;
+    private DialogCustomization dialogCustomization = new DialogCustomization();
 
     public static final int DIALOG_MODE_NORMAL = 0;
     public static final int DIALOG_MODE_FULLSCREEN = 1;
@@ -385,7 +386,7 @@ public class VTDialog {
         return this;
     }
 
-    public VTDialog customize(DialogCustomization dialogCustomization){
+    public VTDialog customize(@NonNull DialogCustomization dialogCustomization){
         this.dialogCustomization = dialogCustomization;
         dialogCustomization.dialog = this;
         return this;
