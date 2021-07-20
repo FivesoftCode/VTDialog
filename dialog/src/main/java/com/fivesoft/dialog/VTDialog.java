@@ -1,5 +1,7 @@
 package com.fivesoft.dialog;
 
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -13,19 +15,21 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.IdRes;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
-
 import com.fivesoft.smartutil.Metrics;
+import com.fivesoft.smartutil.Screen;
+import com.fivesoft.smartutil.ViewUtil;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
-import static android.widget.ListPopupWindow.WRAP_CONTENT;
 
 public class VTDialog {
 
@@ -71,6 +75,10 @@ public class VTDialog {
     public static final int DIALOG_MODE_NORMAL = 0;
     public static final int DIALOG_MODE_FULLSCREEN = 1;
 
+    public static final int BUTTON_ID_LEFT = 0;
+    public static final int BUTTON_ID_CENTRAL = 1;
+    public static final int BUTTON_ID_RIGHT = 2;
+
 
     public static final int BUTTONS_STYLE_HORIZONTAL = 0;
     public static final int BUTTONS_STYLE_VERTICAL = 1;
@@ -98,8 +106,7 @@ public class VTDialog {
      */
 
     public VTDialog setLeftButton(String text, OnClickListener clickListener) {
-        leftButton = new Button(text, clickListener);
-        return this;
+        return setLeftButton(text, 0, clickListener);
     }
 
     /**
@@ -110,8 +117,7 @@ public class VTDialog {
      */
 
     public VTDialog setCentralButton(String text, OnClickListener clickListener) {
-        centralButton = new Button(text, clickListener);
-        return this;
+        return setCentralButton(text, 0, clickListener);
     }
 
     /**
@@ -122,8 +128,7 @@ public class VTDialog {
      */
 
     public VTDialog setRightButton(String text, OnClickListener clickListener) {
-        rightButton = new Button(text, clickListener);
-        return this;
+        return setRightButton(text, 0, clickListener);
     }
 
     /**
@@ -135,7 +140,26 @@ public class VTDialog {
      */
 
     public VTDialog setLeftButton(String text, int iconRes, OnClickListener clickListener) {
-        leftButton = new Button(text, iconRes, clickListener);
+        Button newButton = new Button(text, iconRes, clickListener);
+        if(dialog.isShowing()){
+            setupButton(newButton, leftButtonView);
+        }
+        leftButton = newButton;
+        return this;
+    }
+
+    public VTDialog removeLeftButton(){
+        setupButton(null, leftButtonView);
+        return this;
+    }
+
+    public VTDialog removeCentralButton(){
+        setupButton(null, centerButtonView);
+        return this;
+    }
+
+    public VTDialog removeRightButton(){
+        setupButton(null, rightButtonView);
         return this;
     }
 
@@ -148,7 +172,11 @@ public class VTDialog {
      */
 
     public VTDialog setCentralButton(String text, int iconRes, OnClickListener clickListener) {
-        centralButton = new Button(text, iconRes, clickListener);
+        Button newButton = new Button(text, iconRes, clickListener);
+        if(dialog.isShowing()){
+            setupButton(newButton, centerButtonView);
+        }
+        centralButton = newButton;
         return this;
     }
 
@@ -161,7 +189,11 @@ public class VTDialog {
      */
 
     public VTDialog setRightButton(String text, int iconRes, OnClickListener clickListener) {
-        rightButton = new Button(text, iconRes, clickListener);
+        Button newButton = new Button(text, iconRes, clickListener);
+        if(dialog.isShowing()){
+            setupButton(newButton, rightButtonView);
+        }
+        rightButton = newButton;
         return this;
     }
 
@@ -355,6 +387,7 @@ public class VTDialog {
 
     public VTDialog customize(DialogCustomization dialogCustomization){
         this.dialogCustomization = dialogCustomization;
+        dialogCustomization.dialog = this;
         return this;
     }
 
@@ -374,12 +407,8 @@ public class VTDialog {
      */
 
     public void show(){
-        try {
-            createDialog();
-            dialog.show();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        createDialog();
+        dialog.show();
     }
 
     /**
@@ -390,17 +419,58 @@ public class VTDialog {
         dialog.dismiss();
     }
 
+    /**
+     * Returns left button view.
+     * @return left button TextView.
+     */
 
     public TextView getLeftButton(){
         return leftButtonView;
     }
 
-    public TextView getCenterButton(){
+    /**
+     * Returns center button view.
+     * @return center button TextView.
+     */
+
+    public TextView getCentralButton(){
         return centerButtonView;
     }
 
+    /**
+     * Returns right button view.
+     * @return right button TextView.
+     */
+
     public TextView getRightButton(){
         return rightButtonView;
+    }
+
+    public TextView getTitle(){
+        return dialTitle;
+    }
+
+    public TextView getMessage(){
+        return dialMessage;
+    }
+
+    public View getContentView(){
+        return contentView;
+    }
+
+    public <T extends View> T findViewById(@IdRes int id){
+        if(contentView == null)
+            return null;
+        return contentView.findViewById(id);
+    }
+
+    /**
+     * Returns weather dialog is visible for user.
+     * @return true if dialog is visible.
+     */
+
+    public boolean isShowing(){
+        return dialog.isShowing();
     }
 
     public Window getWindow(){
@@ -416,10 +486,12 @@ public class VTDialog {
     private void createDialog(){
 
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogTheme;
+        dialog.getWindow().getAttributes().gravity = Gravity.NO_GRAVITY;
+
 
         if(dialogMode == DIALOG_MODE_NORMAL) {
             dialog.setContentView(R.layout.d_vt_dialog_alert);
-            dialog.getWindow().setLayout(MATCH_PARENT, MATCH_PARENT);
+            dialog.getWindow().setLayout(MATCH_PARENT, Screen.getHeight(activity));
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             root = dialog.findViewById(R.id.root);
             root.setGravity(gravity);
@@ -521,24 +593,94 @@ public class VTDialog {
 
     private void setupButton(Button buttonData, TextView textView){
         if(buttonData == null || buttonData.text == null || buttonData.text.equals("")){
-            textView.setVisibility(GONE);
+            if(dialog.isShowing() && textView.getVisibility() == VISIBLE) {
+                hideButton(textView);
+            } else {
+                textView.setVisibility(GONE);
+            }
         } else {
-            textView.setVisibility(VISIBLE);
             textView.setText(buttonData.text);
+            ViewUtil.setMarginTop(textView, Metrics.dpToPx(8, activity));
+            dialogCustomization.customizeButtons(textView, textView.equals(leftButtonView) ? BUTTON_ID_LEFT : textView.equals(centerButtonView) ? BUTTON_ID_CENTRAL : BUTTON_ID_RIGHT);
             textView.setOnClickListener(view -> {
-                if(buttonData.onClickListener != null)
+                if (buttonData.onClickListener != null)
                     buttonData.onClickListener.onClick(textView);
-                if(dismissOnButtonClick) {
+                if (dismissOnButtonClick) {
                     dialog.dismiss();
                 }
             });
-            if(buttonData.iconRes != -1){
+            if (buttonData.iconRes != 0) {
                 textView.setCompoundDrawablesWithIntrinsicBounds(buttonData.iconRes, 0, 0, 0);
-                if(buttonIconAutoColor){
+                if (buttonIconAutoColor) {
                     textView.getCompoundDrawables()[0].setColorFilter(textView.getTextColors().getDefaultColor(), PorterDuff.Mode.SRC_IN);
                 }
             }
+            if(dialog.isShowing() && textView.getVisibility() == GONE) {
+                showButton(textView);
+            } else {
+                textView.setVisibility(VISIBLE);
+            }
         }
+    }
+
+    private void hideButton(TextView button){
+
+        //TODO Animation for horizontal buttons style
+        if(buttonsStyle == BUTTONS_STYLE_HORIZONTAL){
+            button.setVisibility(GONE);
+            return;
+        }
+
+        int viewHeight = ViewUtil.getViewHeight(button);
+        int viewStartMarginTop = ViewUtil.getMarginTop(button);
+        int viewEndMarginBottom = ViewUtil.getMarginBottom(button);
+
+        ValueAnimator a = ValueAnimator.ofFloat(1, 0);
+        a.setDuration(250);
+        a.setInterpolator(new AccelerateDecelerateInterpolator());
+        a.addUpdateListener((animation) -> {
+            float factor = (float) animation.getAnimatedValue();
+            ViewUtil.setViewHeight(button, (int) (viewHeight * factor));
+            ViewUtil.setMarginTop(button, (int) (viewStartMarginTop * factor));
+            ViewUtil.setMarginBottom(button, (int) (viewEndMarginBottom * factor));
+        });
+        a.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(android.animation.Animator animation) {
+                button.setVisibility(View.GONE);
+            }
+        });
+        a.start();
+    }
+
+    private void showButton(TextView button){
+
+        //TODO Animation for horizontal buttons style
+        if(buttonsStyle == BUTTONS_STYLE_HORIZONTAL){
+            button.setVisibility(VISIBLE);
+            return;
+        }
+
+        int viewHeight = ViewUtil.getViewHeight(button);
+        int viewStartMarginTop = ViewUtil.getMarginTop(button);
+        int viewEndMarginBottom = ViewUtil.getMarginBottom(button);
+
+        ValueAnimator a = ValueAnimator.ofFloat(0, 1);
+        a.setDuration(250);
+        a.setInterpolator(new AccelerateDecelerateInterpolator());
+        a.addUpdateListener((animation) -> {
+            float factor = (float) animation.getAnimatedValue();
+            ViewUtil.setViewHeight(button, (int) (viewHeight * factor));
+            ViewUtil.setMarginTop(button, (int) (viewStartMarginTop * factor));
+            ViewUtil.setMarginBottom(button, (int) (viewEndMarginBottom * factor));
+        });
+        a.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(android.animation.Animator animation) {
+                button.setVisibility(View.VISIBLE);
+            }
+        });
+        a.start();
     }
 
     private void setupIcon(Drawable drawable, ImageView icon){
@@ -552,7 +694,7 @@ public class VTDialog {
     private static class Button {
 
         public String text;
-        public int iconRes = -1;
+        public int iconRes = 0;
         public OnClickListener onClickListener;
 
         private Button(String text, OnClickListener onClickListener){
@@ -569,6 +711,8 @@ public class VTDialog {
     }
 
     public static class DialogCustomization {
+
+        protected VTDialog dialog;
 
         public void customizeTitleTextView(TextView title){
 

@@ -6,6 +6,7 @@ import androidx.cardview.widget.CardView;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,15 +15,18 @@ import com.fivesoft.dialog.VTDialog;
 
 public class MainActivity extends AppCompatActivity {
 
+    private VTDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
     }
 
     @Override
     public void onBackPressed() {
-        VTDialog.from(this)
+        dialog = VTDialog.from(this)
                 .setTitle("Title")
                 .setMessage("This is message text.")
                 .setGravity(Gravity.BOTTOM)
@@ -44,12 +48,17 @@ public class MainActivity extends AppCompatActivity {
                         button.setBackgroundResource(R.drawable.simple_button);
                     }
                 })
-                .setDismissOnButtonClick(true)
+                .setDismissOnButtonClick(false)
                 .setButtonsStyle(VTDialog.BUTTONS_STYLE_VERTICAL)
-                .setLeftButton("Great", R.drawable.ic_baseline_check_24, view -> {
-                    Toast.makeText(this, "Left button clicked!", Toast.LENGTH_LONG).show();
+                .setLeftButton("Add button", v -> {
+                    dialog.setCentralButton("Change button", v1 -> {
+                        dialog.setCentralButton("This is new Text", null);
+                    });
                 })
-                .setRightButton("Cool!", null)
-                .show();
+                .setRightButton("Remove button!", R.drawable.ic_baseline_check_24, view -> {
+                    dialog.removeCentralButton();
+                });
+
+        dialog.show();
     }
 }

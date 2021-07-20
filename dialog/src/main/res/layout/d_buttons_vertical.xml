@@ -22,7 +22,6 @@
         android:id="@+id/centerButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="4dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/simple_button"
         android:gravity="center"
