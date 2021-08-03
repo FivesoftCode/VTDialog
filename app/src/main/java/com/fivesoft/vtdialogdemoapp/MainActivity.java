@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
                 .setDismissOnButtonClick(false)
-                .setButtonsStyle(VTDialog.BUTTONS_STYLE_VERTICAL)
+                .setButtonsStyle(VTDialog.BUTTONS_STYLE_HORIZONTAL)
                 .setLeftButton("Add button", v -> {
                     dialog.setCentralButton("Change button", v1 -> {
                         dialog.setCentralButton("This is new Text", null);
