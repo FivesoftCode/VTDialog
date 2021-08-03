@@ -4,14 +4,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="10dp">
+    android:paddingBottom="3dp"
+    android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="12dp"
         app:contentPadding="6dp"
         app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="16dp"
@@ -58,7 +58,7 @@
 
                 <!-- Body -->
 
-                <ScrollView
+                <androidx.core.widget.NestedScrollView
                     android:id="@+id/body"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -87,7 +87,7 @@
 
                     </LinearLayout>
 
-                </ScrollView>
+                </androidx.core.widget.NestedScrollView>
 
                 <!-- Buttons bar -->
                 <LinearLayout

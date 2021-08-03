@@ -494,7 +494,7 @@ public class VTDialog {
 
         if(dialogMode == DIALOG_MODE_NORMAL) {
             dialog.setContentView(R.layout.d_vt_dialog_alert);
-            dialog.getWindow().setLayout(MATCH_PARENT, Screen.getHeight(activity));
+            dialog.getWindow().setLayout(MATCH_PARENT, Screen.getAbsoluteHeight(activity) - Screen.getNavigationBarHeight(activity) - Screen.getStatusBarHeight(activity));
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             root = dialog.findViewById(R.id.root);
             root.setGravity(gravity);
@@ -505,8 +505,7 @@ public class VTDialog {
         } else if(dialogMode == DIALOG_MODE_FULLSCREEN){
             dialog.setContentView(R.layout.d_vt_dialog_fullscreen);
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                dialog.getWindow().setStatusBarColor(Color.WHITE);
+            dialog.getWindow().setStatusBarColor(Color.WHITE);
 
             dialog.getWindow().setLayout(MATCH_PARENT, MATCH_PARENT);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -518,6 +517,12 @@ public class VTDialog {
         ImageView icon = dialog.findViewById(R.id.icon);
 
         CardView background = dialog.findViewById(R.id.background);
+
+        background.setFocusable(true);
+        background.setClickable(true);
+        background.setOnClickListener(v -> {
+
+        });
 
         LinearLayout content = dialog.findViewById(R.id.content);
 
